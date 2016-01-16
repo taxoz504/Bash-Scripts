@@ -1,4 +1,9 @@
-DOMAIN="Site url without HTTP"
+#To Do
+#Edit all under "echo '<VirtualHost *:80>" words with DOMAIN to site url without HTTP
+#Fullout the DOMAIN="" 
+
+
+DOMAIN="edit.me.com"
 
 echo mkaing folder $DOMAIN
 
