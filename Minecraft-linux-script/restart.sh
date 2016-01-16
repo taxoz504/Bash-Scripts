@@ -39,5 +39,5 @@ screen -S mcmodded -X eval "stuff \015"
 sleep 15
 screen -wipe
 sleep 2
-cd /home/Minecraft/Admin/FTBInfinity
+cd path to minecraft server folder
 ./start.sh
