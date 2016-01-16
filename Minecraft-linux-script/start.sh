@@ -1,0 +1,1 @@
+screen -dmS mcmodded java -server -Xms2048m -Xmx6144M -XX:PermSize=256m -d64 -XX:+UseParNewGC -XX:+CMSIncrementalPacing -XX:+CMSClassUnloadingEnabled -XX:ParallelGCThreads=2 -XX:MinHeapFreeRatio=5 -Dfml.queryResult=confirm -XX:MaxHeapFreeRatio=10 -jar FTBServer-1.7.10-1558.jar nogui
