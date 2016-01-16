@@ -36,7 +36,7 @@ echo '<VirtualHost *:80>
         ServerAdmin admin@DOMAIN
         ServerName DOMAIN
         ServerAlias www.DOMAIN
-        DocumentRoot /var/www/newsite.taxoz.dk/public_html
+        DocumentRoot /var/www/DOMAIN/public_html
         ErrorLog ${APACHE_LOG_DIR}/error.log
         CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>' > /etc/apache2/sites-available/$DOMAIN.conf
