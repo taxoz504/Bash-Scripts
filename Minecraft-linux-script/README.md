@@ -1,3 +1,5 @@
+# old script is restart new is rebooter
+
 This is for auto restarting a Minecraft server on linux
 
 Type "crontab -e" into the terminal
