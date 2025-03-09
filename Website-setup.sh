@@ -1,6 +1,51 @@
 #!/bin/bash
+clear
+
+# Check if the script is run with sudo
+if [[ $EUID -ne 0 ]]; then
+    echo "This script has to be ran with sudo"
+    exit 1
+fi
+
+# Check for system updates
+read -p "Do you want to check for system update y/n: " UPDATE_CHECK
+
+if [[ "$UPDATE_CHECK" == "y" ]]; then
+	sudo apt update && sudo apt upgrade -y
+else
+	echo "Skipping update checks"
+fi
+
+APP_STATUS=$(systemctl status apache2 | grep active)
+
+if echo "$APP_STATUS" | grep -q "Active: active (running)"; then
+	echo "Apache is running"
+elif echo "$APP_STATUS" | grep -q "Active: inactive (dead)"; then
+	echo "Apache is installed but not running"
+	read -p "Do you wish to start y/n: " APP_DOWN
+	if [[ "$APP_DOWN" == "y" ]]; then
+		echo "Starting apache"
+			systemctl start apache2
+		else
+			echo "Apache will remain down"
+	fi
+	
+else
+	clear
+	echo "Apache is not installed"
+	read -p "Do you want to install Apache? y/n: " APP_INSTALL
+	if [[ "$APP_INSTALL" == "y" ]]; then
+	echo "Installing"
+	sudo apt update && sudo apt upgrade -y && sudo apt install -y apache2
+	else
+	echo "Exiting script Apache is required"
+	exit 1
+	fi
+fi
+
 
 # Ask if you want to create an FQDN or a subdomain
+clear
 echo "Do you want to create a (1) FQDN or (2) Subdomain?"
 read -p "Enter 1 for FQDN or 2 for Full Subdomain: " DOMAIN_TYPE
 
@@ -30,8 +75,8 @@ EOF
     cat <<EOF | sudo tee "$CONF_FILE" > /dev/null
 <VirtualHost *:80>
         ServerAdmin admin@$DOMAIN
-        ServerName $DOMAIN
-        ServerAlias www.$DOMAIN
+        ServerName www.$DOMAIN
+        ServerAlias $DOMAIN
         DocumentRoot $WEB_ROOT
         ErrorLog \${APACHE_LOG_DIR}/error.log
         CustomLog \${APACHE_LOG_DIR}/access.log combined
